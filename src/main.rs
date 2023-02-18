@@ -1,3 +1,5 @@
+// for release builds
+// #![windows_subsystem = "windows"]
 
 use macroquad::prelude::*;
 fn window_config() -> Conf {
@@ -31,7 +33,7 @@ async fn main() {
             //begin update
             dt=get_frame_time();
             score_timer+=dt*10.0;
-            if score_timer>0.5 {
+            if score_timer>(0.5 + (0.2/level_count as f32)) {
                 score+=1;
                 score_timer=0.0;
             }
@@ -50,7 +52,7 @@ async fn main() {
             if mouse_position().0>box_x && mouse_position().0<box_x+BOX_WIDTH
             && mouse_position().1>box_y && mouse_position().1<box_y+BOX_HEIGHT {
                 if is_mouse_button_pressed(MouseButton::Left) {
-                    score-=5;
+                    score-=5+(0.5/level_count as f32) as i32;
                 }
             }
 
@@ -64,8 +66,8 @@ async fn main() {
             draw_text("Score: ", 10.0, 20.0, 32.0, WHITE);
             draw_text(score.as_str(), 100.0, 20.0, 32.0, WHITE);
             draw_text(score.as_str(), 100.0, 20.0, 32.0, WHITE);
-            draw_text("/", 140.0, 20.0, 32.0, WHITE);
-            draw_text(max_score_per_level.to_string().as_str(), 170.0, 20.0, 32.0, WHITE);
+            draw_text("/", 150.0, 20.0, 32.0, WHITE);
+            draw_text(max_score_per_level.to_string().as_str(), 180.0, 20.0, 32.0, WHITE);
             draw_text(&level_name, screen_width()/2.0-55.0, screen_height()/4.0-20.0, 32.0, WHITE);
 
             draw_rectangle(box_x, box_y, BOX_WIDTH, BOX_HEIGHT, BLUE);
